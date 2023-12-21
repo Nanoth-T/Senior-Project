@@ -4,7 +4,8 @@
 
 4/4 time signature, 4 bars, note C4, 110 BPM, **focus on Rhythm**
 
-check [**d**](https://drive.google.com/drive/folders/1JPXs53voIFCUFxhKD5yxHcW-cYMF2RMD?usp=sharing) 
+check [**dataset**](https://drive.google.com/drive/folders/1JPXs53voIFCUFxhKD5yxHcW-cYMF2RMD?usp=sharing) 
+and [**code**](https://github.com/Nanoth-T/Senior-Project/blob/43c33f87122e5a7316beacb278dbcfc26adfaea2/Data/midi-simple%20rhythm.py)
 
 metadata.csv include: filename, seq of rhythm_label, seq of target
 
