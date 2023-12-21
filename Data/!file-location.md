@@ -4,7 +4,7 @@
 
 4/4 time signature, 4 bars, note C4, 110 BPM, **focus on Rhythm**
 
-check [**here**](https://drive.google.com/drive/folders/1JPXs53voIFCUFxhKD5yxHcW-cYMF2RMD?usp=sharing) 
+check [**d**](https://drive.google.com/drive/folders/1JPXs53voIFCUFxhKD5yxHcW-cYMF2RMD?usp=sharing) 
 
 metadata.csv include: filename, seq of rhythm_label, seq of target
 
