@@ -1,6 +1,6 @@
 ## toy dataset version 1.0.0
 
-4/4 time signature, 4 bars
+4/4 time signature, 4 bars, note C4
 
 check [**here**](https://drive.google.com/drive/folders/1UMS4dBJezOfFmDF8vi-BDncPS2ba2a6p?usp=sharing) 
 
