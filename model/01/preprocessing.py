@@ -15,14 +15,13 @@ class MusicDataset(Dataset):
                audio_dir,
                transformation,
                target_sample_rate,
-               num_samples,
                rhythm_dict
                ):
         self.annotations = pd.read_csv(annotations_file)
         self.audio_dir = audio_dir
         self.transformation = transformation
         self.target_sample_rate = target_sample_rate
-        self.num_samples = num_samples
+        self.num_samples = self._calculate_max_num_sample()
         self.rhythm_dict = rhythm_dict
 
     def _get_audio_sample_path(self, index):
@@ -36,6 +35,13 @@ class MusicDataset(Dataset):
     
     def __len__(self):
         return len(self.annotations)
+    
+    def _calculate_max_num_sample(self):
+        num_samples = 0
+        for file_path in range(len(self.annotations)):
+            audio_tensor, _ = torchaudio.load(os.path.join(self.audio_dir, self.annotations.iloc[file_path, 0]))
+            num_samples = max(num_samples, audio_tensor.shape[1])
+        return num_samples
     
     def _resample_if_necessary(self, signal, sr):
         if sr != self.target_sample_rate:
@@ -69,18 +75,11 @@ class MusicDataset(Dataset):
         # Create feature representation combining spectrogram and onset information
         onset_tensor = torch.zeros(mel_signal.shape[2])  # Initialize onset tensor
         onset_tensor[onset_frames] = 1  # Set values corresponding to onsets to 1
-        return onset_tensor
-    
-    def _inputTensor(self, label):
-        input_tensor = torch.zeros(len(label), 1, len(self.rhythm_dict))
-        for i in range(len(label)):
-            rt = label[i]
-            input_tensor[i][0][self.rhythm_dict[rt]] = 1
-        return input_tensor
+        return onset_frames, onset_tensor
     
     def _targetTensor(self, label):
         rt_indexes = [self.rhythm_dict[rt] for rt in label]
-        rt_indexes.append(self.rhythm_dict["EOS"]) # EOS
+        # rt_indexes.append(self.rhythm_dict["EOS"]) # EOS
         return torch.LongTensor(rt_indexes)
 
 
@@ -88,7 +87,6 @@ class MusicDataset(Dataset):
         audio_sample_path = self._get_audio_sample_path(index)
         label = self._get_audio_sample_label(index)
         label_tensor = self._targetTensor(label) 
-        input_tensor = self._inputTensor(label) 
         signal, sr = torchaudio.load(audio_sample_path) # ทุก signal ไม่ได้มี sr เท่ากัน เพราะงั้นต้อง resample ให้ sr มันเท่ากันด้วย
         signal = self._resample_if_necessary(signal, sr)
         signal = self._mix_down_if_necessary(signal)
@@ -99,20 +97,20 @@ class MusicDataset(Dataset):
         # print(signal.shape)
 
         mel_signal = self.transformation(signal) #**** take waveform to transformation
-        onset = self._onset_detection(signal, mel_signal)
+        onset_frames, onset_tensor = self._onset_detection(signal, mel_signal)
         
-        signal_tensor = torch.cat((mel_signal, onset.unsqueeze(0).unsqueeze(0).expand_as(mel_signal)), dim=1)
+        signal_tensor = torch.cat((mel_signal, onset_tensor.unsqueeze(0).unsqueeze(0).expand_as(mel_signal)), dim=1)
 
-        return signal_tensor, input_tensor, label_tensor
+        return signal_tensor, len(onset_frames), label_tensor
 
 
 
 if __name__ == "__main__":
-    rhythm_dict = {"whole": 0, "half": 1, "quarter": 2, "8th": 3, "16th": 4, "EOS": 5}
+    rhythm_dict = {"whole": 0, "half": 1, "quarter": 2, "8th": 3, "16th": 4}
     ANNOTATIONS_FILE = "dataset/01-simple rhythm/metadata.csv"
     AUDIO_DIR = "dataset/01-simple rhythm"
     SAMPLE_RATE = 22050
-    NUM_SAMPLES = 607744
+    # NUM_SAMPLES = 607744
 
     mel_spectrogram = torchaudio.transforms.MelSpectrogram(
         sample_rate = SAMPLE_RATE,
@@ -127,14 +125,15 @@ if __name__ == "__main__":
                     # mel_spectrogram,
                     spectrogram,
                     SAMPLE_RATE,
-                    NUM_SAMPLES,
+                    # NUM_SAMPLES,
                     rhythm_dict
                     )
 
     print(f"There are {len(sound)} samples in the dataset.")
     for i in range(len(sound)):
-        signal, input_tensor, label = sound[i]
+        signal, onset, label = sound[i]
         print(signal.shape)
-        print(input_tensor)
+        print(onset)
         print(label)
+        print(onset == len(label))
 
