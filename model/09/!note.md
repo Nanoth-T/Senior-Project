@@ -1,6 +1,5 @@
 # encoder-decoder model
 
-use [data 04](https://github.com/Nanoth-T/Senior-Project/tree/main/Data/03-rhythm20sample)
 
 ## Preprocessing
 - use melspectrogram
