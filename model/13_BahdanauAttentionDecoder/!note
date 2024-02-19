@@ -1,0 +1,7 @@
+Seq2Seq using BahdanauAttention from pytorch tutorial
+- will update tmr
+
+problem
+- might not understand how to compute attention
+- BahdanauAttention might not so well
+- imporve complex training set, acc aroud 75% but with test set is really bad againn
