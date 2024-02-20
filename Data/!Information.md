@@ -4,8 +4,6 @@ last update: 20-2-2024
 
 generate variance of dataset follow by below tables
 
-- in sound folder will be zip file
-- have metadata seperate form the zip file
 
 |Folder   |# Sample   |Length   |Rhythm Note|Pitch Note   |Tempo   |Loss/Train|Accuracy|
 |---|---|---|---|---|---|---|---|
