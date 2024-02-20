@@ -207,8 +207,8 @@ if __name__ == "__main__":
 
 
     train(encoder, decoder, num_epochs, train_data_loader, criterion, encoder_optimizer, decoder_optimizer, validate_data_loader, writer)
-    # torch.save(encoder.state_dict(), f"{str(current_path)}/enmodel.pth")
-    # torch.save(decoder.state_dict(), f"{str(current_path)}/demodel.pth")
+    torch.save(encoder.state_dict(), f"{str(current_path)}/last_enmodel.pth")
+    torch.save(decoder.state_dict(), f"{str(current_path)}/last_demodel.pth")
     print("Model trained and stored at model.pth")
 
     
