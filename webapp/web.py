@@ -1,36 +1,32 @@
 import streamlit as st
-import torch, torchaudio
-from torch.utils.data import DataLoader
 import pandas as pd
 import numpy as np
 import csv
 import ast
 import time
-import matplotlib.pyplot as plt
 import plotly.express as px
-import pretty_midi
 # from streamlit_extras.stylable_container import stylable_container
 
 
-rhyhtm_notation = {"whole": "pic/whole-note.png",
-            "half": "pic/half-note.png",
-            "quarter": "pic/quarter-note.png",
-            "8th": "pic/eighth-note.png",
-            "16th": "pic/sixteenth-note.png",
-            "blank": "pic/blank.png"}
+rhyhtm_notation = {"whole": "webapp/pic/whole-note.png",
+            "half": "webapp/pic/half-note.png",
+            "quarter": "webapp/pic/quarter-note.png",
+            "8th": "webapp/pic/eighth-note.png",
+            "16th": "webapp/pic/sixteenth-note.png",
+            "blank": "webapp/pic/blank.png"}
 
-audio_path = {"Bella_Ciao": {"path" : "demo_realsomg_melody_fixed_velo/Bella_Ciao.wav", "caption":"tempo 120 BPM"},
-              "Fur_Elise": {"path" : "demo_realsomg_melody_fixed_velo/Fur_Elise.wav", "caption":"tempo 120 BPM"},
-              "Happy_Birthday": {"path" : "demo_realsomg_melody_fixed_velo/Happy_Birthday.wav", "caption":"tempo 120 BPM"},
-              "Korobeiniki":{"path" : "demo_realsomg_melody_fixed_velo/Korobeiniki.wav", "caption":"tempo 125 BPM"},
-              "London_Bridge_Is_Falling_Down":{"path" : "demo_realsomg_melody_fixed_velo/London_Bridge_Is_Falling_Down.wav", "caption":"tempo 160 BPM"},
-              "Vande_Mataram_Traditional":{"path" : "demo_realsomg_melody_fixed_velo/Vande_Mataram_Traditional.wav", "caption":"tempo 100 BPM"}
+audio_path = {"Bella_Ciao": {"path" : "webapp/demo_realsomg_melody_fixed_velo/Bella_Ciao.wav", "caption":"tempo 120 BPM"},
+              "Fur_Elise": {"path" : "webapp/demo_realsomg_melody_fixed_velo/Fur_Elise.wav", "caption":"tempo 120 BPM"},
+              "Happy_Birthday": {"path" : "webapp/demo_realsomg_melody_fixed_velo/Happy_Birthday.wav", "caption":"tempo 120 BPM"},
+              "Korobeiniki":{"path" : "webapp/demo_realsomg_melody_fixed_velo/Korobeiniki.wav", "caption":"tempo 125 BPM"},
+              "London_Bridge_Is_Falling_Down":{"path" : "webapp/demo_realsomg_melody_fixed_velo/London_Bridge_Is_Falling_Down.wav", "caption":"tempo 160 BPM"},
+              "Vande_Mataram_Traditional":{"path" : "webapp/demo_realsomg_melody_fixed_velo/Vande_Mataram_Traditional.wav", "caption":"tempo 100 BPM"}
               }
 
 model_path = {
             # "LSTM" : None,
-              "Unchunk-Transformer": "log/unchunk_demo_realsomg_melody_fixed_velo.csv",
-              "Chunk-Transformer": "log/chunk1_demo_realsomg_melody_fixed_velo_FULL.csv"
+              "Unchunk-Transformer": "webapp/log/unchunk_demo_realsomg_melody_fixed_velo.csv",
+              "Chunk-Transformer": "webapp/log/chunk1_demo_realsomg_melody_fixed_velo_FULL.csv"
 }
 
 def rhythm_accuracy(rhythm_predict, rhythm_target):
@@ -145,8 +141,8 @@ if selected:
     #     time.sleep(2)
     st.text("")
     addition = {
-                "audio_dir" : "demo_realsomg_melody_fixed_velo",
-                'metadata_path' : "demo_realsomg_melody_fixed_velo/_metadata.csv",
+                "audio_dir" : "webapp/demo_realsomg_melody_fixed_velo",
+                'metadata_path' : "webapp/demo_realsomg_melody_fixed_velo/_metadata.csv",
                 "song_name": song + ".wav",
                 }
     
